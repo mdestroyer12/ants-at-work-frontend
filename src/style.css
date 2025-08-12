@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 
 .font-lexend {
   font-family: 'Lexend', sans-serif;
