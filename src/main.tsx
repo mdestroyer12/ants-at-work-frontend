@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { RouterProvider } from 'react-router';
-import { router } from './routes';
+import { router } from './routes/routes';
 
 const queryClient = new QueryClient();
 
