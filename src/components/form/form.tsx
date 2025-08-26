@@ -1,14 +1,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
 import api from "../../api/axios";
-import { loginSchema } from "../../schemas/loginSchema";
-import Input from "./input";
+import { LoginData, loginSchema } from "../../schemas/loginSchema";
+import Input from "../input";
 import LinkText from "../link";
 import { Button } from "../button";
-
-type LoginData = zod.infer<typeof loginSchema>;
-
+import Loader from "../loader";
+import { toast } from "react-toastify";
 export default function Login() {
   const {
     register,
@@ -19,11 +17,21 @@ export default function Login() {
   async function handleLogin(data: LoginData) {
     try {
       const res = await api.post("/auth/login", data);
+      if(res.status === 201 ){
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);
+       if (res.data.passwordChangeRequired) {
+        toast.info("Você precisa trocar a sua senha de primeiro acesso antes de continuar.");
+        window.location.href = "/first-access-change";
+        return;
+      }
+      toast.success("Login efetuado com sucesso!");
       window.location.href = "/main";
+      }else{
+      toast.error("Erro ao efetuar o login.")
+      }
     } catch (err: any) {
-      alert("Login inválido");
+      toast.error("Erro inesperado.");
     }
   }
 
@@ -34,10 +42,6 @@ export default function Login() {
     >
       <img src="/logo.png" alt="Logo" className="h-30 mb-3 mt-5" />
 
-      <p className="font-semibold text-start text-gray-500 text-sm sm:text-lg w-full">
-        Comece agora!
-      </p>
-
       <h1 className="text-7xl max-[480px]:text-4xl font-bold font-lexend tracking-tight mb-3 w-full">
         Faça seu <span className="text-[#4C2D2D]">login</span>
       </h1>
@@ -45,7 +49,7 @@ export default function Login() {
       <Input
         text="Email"
         type="email"
-        id="InputEmail"
+        id="email"
         placeholder="Insira seu email..."
         register={register}
         error={errors.email?.message}
@@ -54,7 +58,7 @@ export default function Login() {
       <Input
         text="Senha"
         type="password"
-        id="InputPassword"
+        id="password"
         placeholder="Insira sua senha..."
         register={register}
         error={errors.password?.message}
@@ -62,17 +66,17 @@ export default function Login() {
 
       <div className="flex flex-col sm:flex-row justify-center items-start w-full mt-5 gap-4">
         <LinkText
-          text="Esqueceu a senha?"
-          link=" Clique aqui!"
-          destiny="redefinacao"
+          text="Primeiro acesso?"
+          link=" Redefina sua senha!"
+          destiny="reset-request"
           className="text-xs"
         />
         <Button
           type="submit"
-          disabled={isSubmitting || Object.keys(errors).length > 0}
+          disabled={isSubmitting}
           className="h-12 bg-[#4C2D2D] text-base text-[#EFEAE6] hover:bg-[#3F2323] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Entrando..." : "Entrar"}
+          {isSubmitting ? <Loader/> : "Entrar"}
         </Button>
       </div>
     </form>
