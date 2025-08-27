@@ -4,12 +4,10 @@ import { Button } from "../components/button";
 export default function Header() {
   return (
     <header className="flex justify-between items-center w-full px-8 py-4 bg-[#E5DAD1] shadow-md">
-      {/* Logo */}
       <Link to="/">
         <img src="/logo.png" alt="Logo" className="h-12 w-auto object-contain" />
       </Link>
 
-      {/* Navegação */}
       <nav className="flex items-center gap-4">
         <Link to="/">
           <Button className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#4C2D2D] hover:bg-[#3F2323] text-white font-semibold transition">
