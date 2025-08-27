@@ -35,7 +35,11 @@
         return;
       }
       try {
-        const res = await api.post("/auth/password/reset/confirm", data);
+        const res = await api.post("/auth/password/reset/confirm", {
+          token, 
+          newPassword: data.newPassword,
+        }
+        );
 
         if (res.status === 200) {
           toast.success("Sua senha foi alterada com sucesso!")
