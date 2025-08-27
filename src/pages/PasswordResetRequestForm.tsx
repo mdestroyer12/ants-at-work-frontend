@@ -25,7 +25,7 @@ export default function PasswordResetRequest() {
   async function handleRequestReset(data: ResetRequestData) {
     try {
       const res = await api.post("/auth/password/reset/request", data);
-       if (res.status === 201) {
+       if (res.status === 200) {
         toast.success("Solicitação de redefinição realizada com sucesso!");
         window.location.href = "/login"; 
       }else{
@@ -48,7 +48,7 @@ export default function PasswordResetRequest() {
         <h1 className="text-7xl max-[480px]:text-4xl font-bold font-lexend tracking-tight mb-3 w-full">
         Redefinição <span className="text-[#4C2D2D]">por email</span>
       </h1>
-
+      <div className="w-[600px]">
         <Input
           text="Email"
           type="email"
@@ -57,6 +57,7 @@ export default function PasswordResetRequest() {
           register={register}
           error={errors.email?.message}
         />
+        </div>
 
         {errorMessage && (
           <p className="text-[#800000] text-xs mt-1 ml-1 font-medium">{errorMessage}</p>

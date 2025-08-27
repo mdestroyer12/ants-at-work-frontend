@@ -19,13 +19,13 @@ export default function Register() {
     setValue
   } = useForm<RegisterData>({ resolver: zodResolver(registerSchema) });
 
-  const [roles, setRoles] = useState<{ id: string; name: string }[]>([]);
+  const [roles, setRoles] = useState<{ name: string, canRegister: boolean }[]>([]);
   const [selectedRole, setSelectedRole] = useState("");
 
   useEffect(() => {
     async function fetchRoles() {
       try {
-        const res = await api.get("/auth/users/roles");
+        const res = await api.get("/users/roles");
         setRoles(res.data);
       } catch (err) {
         toast.error("Erro ao carregar os papéis de usuário.");
@@ -87,7 +87,7 @@ export default function Register() {
         />
 
         <Select
-          options={roles.map((r) => ({ value: r.id, label: r.name }))}
+          options={roles.map((r) => ({ value: r.name, label: r.name, disabled: !r.canRegister }))}
           placeholder="Papel do usuário"
           value={selectedRole}
           onChange={setSelectedRole}

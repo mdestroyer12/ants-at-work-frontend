@@ -17,7 +17,7 @@ export default function Login() {
   async function handleLogin(data: LoginData) {
     try {
       const res = await api.post("/auth/login", data);
-      if(res.status === 201 ){
+      if(res.status === 200 ){
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);
        if (res.data.passwordChangeRequired) {
@@ -66,8 +66,8 @@ export default function Login() {
 
       <div className="flex flex-col sm:flex-row justify-center items-start w-full mt-5 gap-4">
         <LinkText
-          text="Primeiro acesso?"
-          link=" Redefina sua senha!"
+          text="Esqueceu a senha?"
+          link="Clique aqui!"
           destiny="reset-request"
           className="text-xs"
         />

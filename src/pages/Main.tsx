@@ -1,8 +1,16 @@
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "../components/button";
+import Loader from "../components/loader";
 import api from "../api/axios";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function Main() {
+  const [userData, setUserData] = useState<{ name: string; email: string; roles: string[] } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -10,11 +18,68 @@ export default function Main() {
     window.location.href = "/login";
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl mb-4">Bem-vindo</h1>
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await api.get("/users/me");
+        setUserData(res.data);
+      } catch (err) {
+        toast.error("Erro ao carregar dados do usuário");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchUser();
+  }, []);
 
-      <Button onClick={handleLogout}>Sair</Button>
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#E5DAD1]">
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#E5DAD1] px-5">
+      <img src="/logo.png" alt="Logo" className="h-28 mb-6" />
+
+      <h1 className="text-6xl max-[480px]:text-4xl font-bold font-lexend tracking-tight text-[#4C2D2D] mb-3">
+        Bem-vindo(a){userData && `, ${userData.name}`}!
+      </h1>
+
+      <p className="text-lg text-[#3F2323] text-center max-w-[600px] mb-8">
+        Você está logado no sistema. Explore as funcionalidades e gerencie seu
+        acesso de forma simples e segura.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-[500px] justify-center">
+        {userData?.roles.includes("Administrador") || userData?.roles.includes("Gestor") && (
+          <Button
+            onClick={() => {
+              setIsSubmitting(true);
+              window.location.href = "/register";
+            }}
+            disabled={isSubmitting}
+            className="h-12 bg-[#4C2D2D] text-base text-[#EFEAE6] hover:bg-[#3F2323] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? <Loader /> : "Cadastrar Usuário"}
+          </Button>
+        )}
+
+        <Button
+          onClick={handleLogout}
+          disabled={isSubmitting}
+          className="h-12 bg-[#FFFFFF] text-base text-[#4C2D2D] border-2 border-[#4C2D2D] hover:bg-[#E5DAD1] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? <Loader /> : "Sair"}
+        </Button>
+      </div>
+
+      <footer className="mt-10 text-sm text-[#3F2323] opacity-75">
+        &copy; {new Date().getFullYear()} Seu Sistema. Todos os direitos
+        reservados.
+      </footer>
     </div>
   );
 }
