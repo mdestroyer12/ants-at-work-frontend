@@ -3,24 +3,27 @@ import { Button } from "../components/button";
 
 export default function Header() {
   return (
-    <div className="flex justify-between items-center w-screen p-4">
-      <img src="/logo.png" className="h-11 w-16 object-contain" alt="Logo" />
-
-
-      <div className="flex gap-4">
-        <Button className="bg-[#4C2D2D] hover:bg-[#3F2323] text-white cursor-pointer flex items-center gap-2 px-4 py-2 rounded-2xl pr-1">
-          Inicio
-          <div className="border rounded-full h-7 w-7 flex justify-center items-center bg-[#EFEAE6]">
-            <i className="fa-solid fa-house text-[#4C2D2D] text-sm"></i>
-          </div>
-        </Button>
-        <Button className="bg-[#4C2D2D] hover:bg-[#3F2323] text-white cursor-pointer px-4 py-2 rounded-md">Inicio</Button>
-        <Button className="bg-[#4C2D2D] hover:bg-[#3F2323] text-white cursor-pointer px-4 py-2 rounded-md">Inicio</Button>
-      </div>
-
-      <Link to="/login">
-        <Button className="bg-[#4C2D2D] hover:bg-[#3F2323] text-white cursor-pointer px-4 py-2 rounded-md">Login</Button>
+    <header className="flex justify-between items-center w-full px-8 py-4 bg-[#E5DAD1] shadow-md">
+      {/* Logo */}
+      <Link to="/">
+        <img src="/logo.png" alt="Logo" className="h-12 w-auto object-contain" />
       </Link>
-    </div>
+
+      {/* Navegação */}
+      <nav className="flex items-center gap-4">
+        <Link to="/">
+          <Button className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#4C2D2D] hover:bg-[#3F2323] text-white font-semibold transition">
+            <i className="fa-solid fa-house text-sm"></i>
+            Início
+          </Button>
+        </Link>
+
+        <Link to="/login">
+          <Button className="px-4 py-2 rounded-2xl bg-[#FFFFFF] hover:bg-[#E5DAD1] text-[#4C2D2D] border-2 border-[#4C2D2D] font-semibold transition">
+            Login
+          </Button>
+        </Link>
+      </nav>
+    </header>
   );
 }

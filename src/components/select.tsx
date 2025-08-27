@@ -3,6 +3,7 @@ import { FC } from "react";
 type SelectOption = {
   value: string;
   label: string;
+  disabled?: boolean;
 };
 
 type SelectProps = {
@@ -28,6 +29,7 @@ const Select: FC<SelectProps> = ({ options, value, placeholder, onChange, error,
             border-2 border-[#CABAAE]
             bg-[#E5DAD1]
             text-[#3F2323]
+            text-sm
             hover:border-[#4C2D2D]
             focus:outline-none
             focus:ring-2 focus:ring-[#744625]
@@ -41,7 +43,7 @@ const Select: FC<SelectProps> = ({ options, value, placeholder, onChange, error,
             </option>
         )}
         {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="text-[#3F2323] bg-[#E5DAD1]">
+            <option key={opt.value} value={opt.value} disabled={opt.disabled} className="text-[#3F2323] bg-[#E5DAD1]">
             {opt.label}
             </option>
         ))}

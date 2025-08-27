@@ -7,6 +7,7 @@ import Register from "../pages/RegisterForm";
 import PasswordResetRequest from "../pages/PasswordResetRequestForm";
 import PasswordResetConfirm from "../pages/PasswordResetConfirmForm";
 import FirstAccessPasswordChange from "../pages/FirstAcessChangeForm";
+import ManagerRoute from "./managerRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -20,9 +21,9 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: (
-     <ProtectedRoute>
+      <ManagerRoute>
         <Register />
-    </ProtectedRoute>
+      </ManagerRoute>
     ),
   },
   {

@@ -7,14 +7,15 @@ import Loader from "../components/loader";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { FirstAccessData, firstAccessSchema } from "../schemas/loginSchema";
-import { useState } from "react";
+import { ResetConfirmData as FirstAccessData, resetConfirmSchema as firstAccessSchema } from "../schemas/loginSchema";
+import { useEffect, useState } from "react";
 
 export default function FirstAccessPasswordChange() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue
   } = useForm<FirstAccessData>({
     resolver: zodResolver(firstAccessSchema),
   });
@@ -32,8 +33,8 @@ export default function FirstAccessPasswordChange() {
     try {
       const token = localStorage.getItem("accessToken");
 
-      const res = await api.post("/auth/password/first-access-change",data);
-
+      const res = await api.post("/auth/password/first-access-change", data);
+ 
       if (res.status === 200) {
         toast.success("Senha alterada com sucesso!");
         navigate("/login");

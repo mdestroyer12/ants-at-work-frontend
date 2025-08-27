@@ -16,15 +16,8 @@ export const registerSchema = z.object({
 });
 
 export const resetConfirmSchema = z.object({
-  token: z.string().nonempty("O token é inválido!"),
   newPassword: z.string().min(8, "A senha deve ter pelo menos 8 caracteres!")
 });
-
-export const firstAccessSchema = z.object({
-  newPassword: z.string().min(8, "A senha deve ter pelo menos 8 caracteres!")
-})
-
-export type FirstAccessData = z.infer<typeof firstAccessSchema>;
 
 export type ResetConfirmData = z.infer<typeof resetConfirmSchema>;
 
