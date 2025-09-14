@@ -8,6 +8,7 @@ import PasswordResetRequest from "../pages/PasswordResetRequestForm";
 import PasswordResetConfirm from "../pages/PasswordResetConfirmForm";
 import FirstAccessPasswordChange from "../pages/FirstAcessChangeForm";
 import ManagerRoute from "./managerRoutes";
+import TruckList from "../pages/TruckList";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,12 @@ export const router = createBrowserRouter([
       <ProtectedRoute>
         <Main />
       </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/trucks",
+    element: (
+        <TruckList />
     ),
   },
 ]);

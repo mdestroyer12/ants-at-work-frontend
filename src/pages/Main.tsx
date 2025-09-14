@@ -74,6 +74,13 @@ export default function Main() {
         >
           {isSubmitting ? <Loader /> : "Sair"}
         </Button>
+       <Button
+          onClick={() => window.location.href = "/trucks"}
+          disabled={isSubmitting}
+          className="h-12 bg-[#FFFFFF] text-base text-[#4C2D2D] border-2 border-[#4C2D2D] hover:bg-[#E5DAD1] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+          {isSubmitting ? <Loader /> : "Gerenciar Caminhões"}
+        </Button> 
       </div>
 
       <footer className="mt-10 text-sm text-[#3F2323] opacity-75">
