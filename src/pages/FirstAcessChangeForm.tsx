@@ -5,7 +5,7 @@ import Input from "../components/input";
 import { Button } from "../components/button";
 import Loader from "../components/loader";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { ResetConfirmData as FirstAccessData, resetConfirmSchema as firstAccessSchema } from "../schemas/loginSchema";
 import { useEffect, useState } from "react";
@@ -31,6 +31,13 @@ export default function FirstAccessPasswordChange() {
       return;
     } 
     try {
+
+      const userData = await api.get("/users/me");
+
+      if(!userData.data.passwordChangeRequired){
+          return <Navigate to="/main" replace />;
+      }
+
       const token = localStorage.getItem("accessToken");
 
       const res = await api.post("/auth/password/first-access-change", data);

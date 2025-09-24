@@ -9,6 +9,7 @@ import PasswordResetConfirm from "../pages/PasswordResetConfirmForm";
 import FirstAccessPasswordChange from "../pages/FirstAcessChangeForm";
 import ManagerRoute from "./managerRoutes";
 import TruckList from "../pages/TruckList";
+import LoggedRoute from "./LoggedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -29,11 +30,19 @@ export const router = createBrowserRouter([
   },
   {
     path: "/reset-request",
-    element: <PasswordResetRequest />,
+    element: (
+      <LoggedRoute>
+        <PasswordResetRequest />,
+      </LoggedRoute>
+    ),
   },
   {
     path: "/reset-password",
-    element: <PasswordResetConfirm />,
+    element: (
+      <LoggedRoute>
+        <PasswordResetConfirm />,
+      </LoggedRoute>
+    ),
   },
   {
     path: "/first-access-change",
@@ -50,7 +59,9 @@ export const router = createBrowserRouter([
   {
     path: "/trucks",
     element: (
-        <TruckList />
+        // <ProtectedRoute>
+         <TruckList />
+        // </ProtectedRoute>
     ),
   },
 ]);
