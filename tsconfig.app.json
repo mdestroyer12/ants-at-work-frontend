@@ -18,6 +18,7 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@schemas/*": ["src/schemas/*"],
+      "@/*": ["./src/*"],
     }
   },
   "include": ["src", "public/ui"]
