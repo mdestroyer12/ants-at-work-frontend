@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import TruckForm from "../components/TruckForm";
 import { TruckData } from "../schemas/truckSchema";
-import { Button } from "../components/button";
-import Loader from "../components/loader";
+import { Button } from "../components/Button";
+import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 
 export default function TruckList() {

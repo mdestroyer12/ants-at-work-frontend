@@ -27,5 +27,14 @@ export default tseslint.config(
       ],
       ...pluginQuery.configs.recommended.rules,
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          bun: true,
+          project: './tsconfig.json',
+        },
+      },
+    }
   },
 )

@@ -1,10 +1,9 @@
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "../components/button";
-import Loader from "../components/loader";
-import api from "../api/axios";
+import { Button } from "@components/Button";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import Loader from "@components/Loader";
+import api from "src/api/axios";
 
 export default function Main() {
   const [userData, setUserData] = useState<{ name: string; email: string; roles: string[] } | null>(null);
@@ -23,7 +22,7 @@ export default function Main() {
       try {
         const res = await api.get("/users/me");
         setUserData(res.data);
-      } catch (err) {
+      } catch {
         toast.error("Erro ao carregar dados do usuário");
       } finally {
         setIsLoading(false);

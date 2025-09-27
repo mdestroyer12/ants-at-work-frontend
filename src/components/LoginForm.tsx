@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../../api/axios";
-import { LoginData, loginSchema } from "../../schemas/loginSchema";
-import Input from "../input";
-import LinkText from "../link";
-import { Button } from "../button";
-import Loader from "../loader";
+import { LoginData, loginSchema } from "@schemas/loginSchema";
 import { toast } from "react-toastify";
+import { Button } from "@components/Button";
+import LinkText from "@components/LinkText";
+import Loader from "@components/Loader";
+import FormInput from "@components/FormInput";
+import api from "src/api/axios";
+
 export default function Login() {
   const {
     register,
@@ -17,20 +18,22 @@ export default function Login() {
   async function handleLogin(data: LoginData) {
     try {
       const res = await api.post("/auth/login", data);
-      if(res.status === 200 ){
-      localStorage.setItem("accessToken", res.data.accessToken);
-      localStorage.setItem("refreshToken", res.data.refreshToken);
-       if (res.data.passwordChangeRequired) {
-        toast.info("Você precisa trocar a sua senha de primeiro acesso antes de continuar.");
-        window.location.href = "/first-access-change";
-        return;
+      if (res.status === 200) {
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        if (res.data.passwordChangeRequired) {
+          toast.info(
+            "Você precisa trocar a sua senha de primeiro acesso antes de continuar."
+          );
+          window.location.href = "/first-access-change";
+          return;
+        }
+        toast.success("Login efetuado com sucesso!");
+        window.location.href = "/main";
+      } else {
+        toast.error("Erro ao efetuar o login.");
       }
-      toast.success("Login efetuado com sucesso!");
-      window.location.href = "/main";
-      }else{
-      toast.error("Erro ao efetuar o login.")
-      }
-    } catch (err: any) {
+    } catch {
       toast.error("Erro inesperado.");
     }
   }
@@ -46,7 +49,7 @@ export default function Login() {
         Faça seu <span className="text-[#4C2D2D]">login</span>
       </h1>
 
-      <Input
+      <FormInput
         text="Email"
         type="email"
         id="email"
@@ -55,7 +58,7 @@ export default function Login() {
         error={errors.email?.message}
       />
 
-      <Input
+      <FormInput
         text="Senha"
         type="password"
         id="password"
@@ -76,7 +79,7 @@ export default function Login() {
           disabled={isSubmitting}
           className="h-12 bg-[#4C2D2D] text-base text-[#EFEAE6] hover:bg-[#3F2323] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? <Loader/> : "Entrar"}
+          {isSubmitting ? <Loader /> : "Entrar"}
         </Button>
       </div>
     </form>

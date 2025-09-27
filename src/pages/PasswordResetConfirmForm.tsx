@@ -2,16 +2,15 @@
 
   import { useForm } from "react-hook-form";
   import { zodResolver } from "@hookform/resolvers/zod";
-  import { useState } from "react";
-  import api from "../api/axios";
-  import Input from "../components/input";
-  import { Button } from "../components/button";
-  import { ResetConfirmData, resetConfirmSchema } from "../schemas/loginSchema";
-  import Loader from "../components/loader";
+  import { ResetConfirmData, resetConfirmSchema } from "@schemas/loginSchema";
   import { toast } from "react-toastify";
+  import { useState } from "react";
+  import { Button } from "@components/Button";
+  import Loader from "@components/Loader";
+  import Input from "@components/Input";
+  import api from "src/api/axios";
 
   export default function PasswordResetConfirm() {
-
     const token = window.location.href.split("token=")[1];
 
     const {
@@ -47,7 +46,7 @@
         } else {
           toast.error("Não foi possível redefinir a senha.");
         }
-      } catch (err: any) {
+      } catch {
         toast.error("Erro inesperado.");
       }
     }

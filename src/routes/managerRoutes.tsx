@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
-import Loader from "../components/loader";
+import api from "src/api/axios";
+import Loader from "@components/Loader";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router";
 

@@ -2,14 +2,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "../api/axios";
 import { RegisterData, registerSchema } from "../schemas/loginSchema";
-import Input from "../components/input";
-import LinkText from "../components/link";
-import { Button } from "../components/button";
+import Input from "../components/Input";
+import LinkText from "../components/LinkText";
+import { Button } from "../components/Button";
 import { useState, useEffect } from "react";
-import Loader from "../components/loader";
+import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
-import Select from "../components/select";
+import Select from "../components/Select";
 
 export default function Register() {
   const {
