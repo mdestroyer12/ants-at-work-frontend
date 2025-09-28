@@ -10,11 +10,33 @@ import FirstAccessPasswordChange from "../pages/Auth/FirstAcessChangeForm";
 import ManagerRoute from "./managerRoutes";
 import TruckList from "../pages/Trucks/TruckList";
 import LoggedOutRoute from "./loggedOutRoute";
+import MainLayout from "@/layouts/MainLayout";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/main",
+        element: (
+          <ProtectedRoute>
+            <Main />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/trucks",
+        element: (
+          <ProtectedRoute>
+            <TruckList />
+          </ProtectedRoute>
+        ),
+      },
+    ]
   },
   {
     path: "/login",
@@ -51,21 +73,5 @@ export const router = createBrowserRouter([
   {
     path: "/first-access-change",
     element: <FirstAccessPasswordChange />,
-  },
-  {
-    path: "/main",
-    element: (
-      <ProtectedRoute>
-        <Main />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/trucks",
-    element: (
-      <ProtectedRoute>
-         <TruckList />
-      </ProtectedRoute>
-    ),
   },
 ]);

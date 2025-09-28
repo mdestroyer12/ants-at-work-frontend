@@ -4,20 +4,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "@components/Loader";
 import api from "src/api/axios";
-import { setCookie } from "@/lib/utils";
 
 export default function Main() {
   const [userData, setUserData] = useState<{ name: string; email: string; roles: string[] } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleLogout = () => {
-    setCookie("accessToken", "", -1);
-    setCookie("refreshToken", "", -1);
-    setCookie("passwordChangeRequired", "", -1);
-    delete api.defaults.headers.common["Authorization"];
-    window.location.href = "/login";
-  };
 
   useEffect(() => {
     async function fetchUser() {
@@ -67,14 +58,6 @@ export default function Main() {
             {isSubmitting ? <Loader /> : "Cadastrar Usuário"}
           </Button>
         )}
-
-        <Button
-          onClick={handleLogout}
-          disabled={isSubmitting}
-          className="h-12 bg-[#FFFFFF] text-base text-[#4C2D2D] border-2 border-[#4C2D2D] hover:bg-[#E5DAD1] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? <Loader /> : "Sair"}
-        </Button>
        <Button
           onClick={() => window.location.href = "/trucks"}
           disabled={isSubmitting}
@@ -85,7 +68,7 @@ export default function Main() {
       </div>
 
       <footer className="mt-10 text-sm text-[#3F2323] opacity-75">
-        &copy; {new Date().getFullYear()} Seu Sistema. Todos os direitos
+        &copy; {new Date().getFullYear()} AntsAtWork. Todos os direitos
         reservados.
       </footer>
     </div>
