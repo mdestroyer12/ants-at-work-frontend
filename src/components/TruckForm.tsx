@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { truckSchema, TruckData } from "../schemas/truckSchema";
+import { truckSchema, TruckData } from "../schemas/TruckSchema";
 import Input from "./Input";
 import { Button } from "./Button";
 import Loader from "./Loader";

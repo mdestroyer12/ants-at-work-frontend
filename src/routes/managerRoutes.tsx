@@ -3,6 +3,7 @@ import api from "src/api/axios";
 import Loader from "@components/Loader";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router";
+import { getCookie } from "src/lib/utils";
 
 interface Props {
   children: React.ReactNode;
@@ -12,7 +13,8 @@ export default function ManagerRoute({ children }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [isManager, setIsManager] = useState(false);
 
-  const token = localStorage.getItem("accessToken");
+  //const token = localStorage.getItem("accessToken");
+  const token = getCookie("accessToken");
 
   if (!token) {
     return <Navigate to="/login" replace />;

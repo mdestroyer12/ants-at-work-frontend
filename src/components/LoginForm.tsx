@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginData, loginSchema } from "@schemas/loginSchema";
+import { LoginData, loginSchema } from "@schemas/LoginSchema";
 import { toast } from "react-toastify";
 import { Button } from "@components/Button";
 import LinkText from "@components/LinkText";
@@ -19,8 +19,8 @@ export default function Login() {
     try {
       const res = await api.post("/auth/login", data);
       if (res.status === 200) {
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
+        document.cookie = `accessToken=${res.data.accessToken}; refreshToken=${res.data.refreshToken}; path=/;`;
+        localStorage.setItem("passwordChangeRequired", res.data.passwordChangeRequired);
         if (res.data.passwordChangeRequired) {
           toast.info(
             "Você precisa trocar a sua senha de primeiro acesso antes de continuar."

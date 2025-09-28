@@ -7,7 +7,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import {
   ResetConfirmData as FirstAccessData,
   resetConfirmSchema as firstAccessSchema,
-} from "@schemas/loginSchema";
+} from "@schemas/LoginSchema";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "src/api/axios";
@@ -33,13 +33,15 @@ export default function FirstAccessPasswordChange() {
     }
     try {
       const userData = await api.get("/users/me");
+      const passwordChangeRequired = localStorage.getItem("passwordChangeRequired");
 
-      if (!userData.data.passwordChangeRequired) {
+      if (!passwordChangeRequired) {
         return <Navigate to="/main" replace />;
       }
 
       //const token = localStorage.getItem("accessToken");
       const res = await api.post("/auth/password/first-access-change", data);
+      console.log("Passou aqui")
 
       if (res.status === 200) {
         toast.success("Senha alterada com sucesso!");

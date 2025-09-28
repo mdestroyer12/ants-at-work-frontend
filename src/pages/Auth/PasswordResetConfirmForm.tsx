@@ -2,7 +2,7 @@
 
   import { useForm } from "react-hook-form";
   import { zodResolver } from "@hookform/resolvers/zod";
-  import { ResetConfirmData, resetConfirmSchema } from "@schemas/loginSchema";
+  import { ResetConfirmData, resetConfirmSchema } from "@schemas/LoginSchema";
   import { toast } from "react-toastify";
   import { useState } from "react";
   import { Button } from "@components/Button";

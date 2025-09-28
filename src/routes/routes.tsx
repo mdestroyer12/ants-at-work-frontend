@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router";
 import Home from "../pages/Home";
-import Login from "../pages/Login";
+import Login from "../pages/Auth/Login";
 import Main from "../pages/Main";
 import ProtectedRoute from "./protectedRoutes";
-import Register from "../pages/RegisterForm";
-import PasswordResetRequest from "../pages/PasswordResetRequestForm";
-import PasswordResetConfirm from "../pages/PasswordResetConfirmForm";
-import FirstAccessPasswordChange from "../pages/FirstAcessChangeForm";
+import Register from "../pages/Auth/RegisterForm";
+import PasswordResetRequest from "../pages/Auth/PasswordResetRequestForm";
+import PasswordResetConfirm from "../pages/Auth/PasswordResetConfirmForm";
+import FirstAccessPasswordChange from "../pages/Auth/FirstAcessChangeForm";
 import ManagerRoute from "./managerRoutes";
-import TruckList from "../pages/TruckList";
+import TruckList from "../pages/Trucks/TruckList";
 import LoggedRoute from "./LoggedRoute";
 
 export const router = createBrowserRouter([
@@ -59,9 +59,9 @@ export const router = createBrowserRouter([
   {
     path: "/trucks",
     element: (
-        // <ProtectedRoute>
+        <ProtectedRoute>
          <TruckList />
-        // </ProtectedRoute>
+        </ProtectedRoute>
     ),
   },
 ]);

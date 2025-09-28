@@ -1,14 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { ResetRequestData, resetRequestSchema } from "@schemas/loginSchema";
+import { ResetRequestData, resetRequestSchema } from "@schemas/LoginSchema";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
 import { Button } from "@components/Button";
 import Input from "@components/Input";
 import Loader from "@components/Loader";
 import api from "src/api/axios";
-
 
 export default function PasswordResetRequest() {
   const {

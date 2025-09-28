@@ -1,16 +1,17 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "src/api/axios";
-import { RegisterData, registerSchema } from "@schemas/LoginSchema";
-import Input from "@components/Input";
-import { Button } from "@components/Button";
+import api from "../../api/axios";
+import { RegisterData, registerSchema } from "../../schemas/LoginSchema";
+import Input from "../../components/Input";
+import LinkText from "../../components/LinkText";
+import { Button } from "../../components/Button";
 import { useState, useEffect } from "react";
-import Loader from "@components/Loader";
-import Select from "@components/Select";
+import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
+import Select from "../../components/Select";
 
-export default function RegisterForm() {
+export default function Register() {
   const {
     register: hookFormRegister,
     handleSubmit,
@@ -26,7 +27,7 @@ export default function RegisterForm() {
       try {
         const res = await api.get("/users/roles");
         setRoles(res.data);
-      } catch {
+      } catch (err) {
         toast.error("Erro ao carregar os papéis de usuário.");
       }
     }
@@ -46,7 +47,7 @@ export default function RegisterForm() {
       } else {
         toast.error("Erro ao cadastrar usuário.");
       }
-    } catch {
+    } catch (err: any) {
       toast.error(err.response?.data?.message || "Erro inesperado.");
     }
   }

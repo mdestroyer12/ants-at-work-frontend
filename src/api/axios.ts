@@ -1,4 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { getCookie, setCookie } from "src/lib/utils";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:8080",
@@ -19,7 +20,8 @@ const processList = (error: AxiosError | null, token: string | null) => {
 };
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem("accessToken");
+  const token = getCookie("accessToken");
+  //const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -45,11 +47,13 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
+        //const refreshToken = localStorage.getItem("refreshToken");
+        const refreshToken = getCookie("refreshToken");
         const res = await api.post("/auth/refresh", { refreshToken });
 
         const newToken = res.data.accessToken;
-        localStorage.setItem("accessToken", newToken);
+        //localStorage.setItem("accessToken", newToken);
+        setCookie("accessToken", newToken, 2);
         api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
         processList(null, newToken);
 
