@@ -1,11 +1,9 @@
 
 import api from "@/api/axios";
-import { getCookie } from "@/lib/utils";
 import Loader from "@components/Loader";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, Navigate } from "react-router";
-import { toast } from "react-toastify";
 
 interface Props {
   children: React.ReactNode;
@@ -30,21 +28,15 @@ export default function AdminRoute({ children }: Props) {
 
   useEffect(() => {
     const roles = data?.roles;
-    if (roles && roles.includes("Administrador")) {
+    if (roles) {
+      if (!roles.includes("Administrador")) {
+        navigate("/login");
+      }
       setIsAdmin(true);
-      return;
     }
-    navigate("/login");
-  }, [data, navigate]);
+  }, [data]);
 
-  useEffect(() => {
-    if (!isError) return;
-    toast.error("Erro ao carregar dados do usuário");
-    navigate("/login");
-  }, [isError, navigate]);
-
-  const token = getCookie("accessToken");
-  if (!token) {
+  if (isError) {
     return <Navigate to="/login" replace />;
   }
 

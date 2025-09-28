@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "src/api/axios";
 import Loader from "@components/Loader";
-import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router";
-import { getCookie } from "src/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {
@@ -28,23 +26,15 @@ export default function ManagerRoute({ children }: Props) {
   });
 
   useEffect(() => {
-    const roles = (data as UserResponse).roles;
-    if (roles.includes("Administrador") || roles.includes("Gestor")) {
+    if (data) {
+      if (!data.roles.includes("Administrador") && !data.roles.includes("Gestor")) {
+        navigate("/login");
+      }
       setIsManager(true);
-      return;
     }
-    navigate("/login");
-  }, [data, navigate]);
+  }, [data])
 
-  useEffect(() => {
-    if (!isError) return;
-    
-    toast.error("Erro ao carregar dados do usuário");
-    navigate("/login");
-  }, [isError, navigate])
-
-  const token = getCookie("accessToken");
-  if (!token) {
+  if (isError) {
     return <Navigate to="/login" replace />;
   }
 
