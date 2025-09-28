@@ -8,6 +8,7 @@ import {
   ResetConfirmData as FirstAccessData,
   resetConfirmSchema as firstAccessSchema,
 } from "@schemas/LoginSchema";
+import { getCookie } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "src/api/axios";
@@ -32,17 +33,12 @@ export default function FirstAccessPasswordChange() {
       return;
     }
     try {
-      const userData = await api.get("/users/me");
-      const passwordChangeRequired = localStorage.getItem("passwordChangeRequired");
-
+      const passwordChangeRequired = getCookie("passwordChangeRequired");
       if (!passwordChangeRequired) {
         return <Navigate to="/main" replace />;
       }
 
-      //const token = localStorage.getItem("accessToken");
       const res = await api.post("/auth/password/first-access-change", data);
-      console.log("Passou aqui")
-
       if (res.status === 200) {
         toast.success("Senha alterada com sucesso!");
         navigate("/login");

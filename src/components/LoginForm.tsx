@@ -7,40 +7,76 @@ import LinkText from "@components/LinkText";
 import Loader from "@components/Loader";
 import FormInput from "@components/FormInput";
 import api from "src/api/axios";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
+import { setCookie } from "@/lib/utils";
+import { AxiosError } from "axios";
+
+interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  passwordChangeRequired: boolean;
+}
+
+function saveTokens(loginResponse: LoginResponse) {
+  const { accessToken, refreshToken, passwordChangeRequired } = loginResponse;
+
+  setCookie("accessToken", accessToken, 2);
+  setCookie("refreshToken", refreshToken, 7);
+  setCookie(
+    "passwordChangeRequired",
+    passwordChangeRequired ? "true" : "false",
+    2
+  );
+}
+
+async function handleLogin(data: LoginData) {
+  const res = await api.post("/auth/login", data);
+  return res;
+}
 
 export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginData>({ resolver: zodResolver(loginSchema) });
+  const navigate = useNavigate();
+  const loginMutation = useMutation({
+    mutationFn: handleLogin,
+    onSuccess: (response: unknown) => {
+      const responseData = (response as { data: LoginResponse })?.data;
+      saveTokens(responseData);
 
-  async function handleLogin(data: LoginData) {
-    try {
-      const res = await api.post("/auth/login", data);
-      if (res.status === 200) {
-        document.cookie = `accessToken=${res.data.accessToken}; refreshToken=${res.data.refreshToken}; path=/;`;
-        localStorage.setItem("passwordChangeRequired", res.data.passwordChangeRequired);
-        if (res.data.passwordChangeRequired) {
-          toast.info(
-            "Você precisa trocar a sua senha de primeiro acesso antes de continuar."
-          );
-          window.location.href = "/first-access-change";
-          return;
-        }
-        toast.success("Login efetuado com sucesso!");
-        window.location.href = "/main";
-      } else {
-        toast.error("Erro ao efetuar o login.");
+      if (responseData?.passwordChangeRequired) {
+        toast.info(
+          "Você precisa trocar a sua senha de primeiro acesso antes de continuar."
+        );
+
+        navigate("/first-access-change");
+        return;
       }
-    } catch {
+
+      toast.success("Login efetuado com sucesso!");
+      navigate("/main");
+    },
+  });
+
+  const onSubmit = async (data: LoginData) => {
+    try {
+      await loginMutation.mutateAsync(data);
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        toast.error(err?.response?.data?.message || "Erro inesperado.");
+        return;
+      }
       toast.error("Erro inesperado.");
     }
-  }
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(handleLogin)}
+      onSubmit={handleSubmit(onSubmit)}
       className="min-h-screen flex flex-col items-center m-15 pt-10"
     >
       <img src="/logo.png" alt="Logo" className="h-30 mb-3 mt-5" />
@@ -76,10 +112,10 @@ export default function Login() {
         />
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={loginMutation.isPending}
           className="h-12 bg-[#4C2D2D] text-base text-[#EFEAE6] hover:bg-[#3F2323] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? <Loader /> : "Entrar"}
+          {loginMutation.isPending ? <Loader /> : "Entrar"}
         </Button>
       </div>
     </form>

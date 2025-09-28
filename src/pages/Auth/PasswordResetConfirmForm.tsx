@@ -22,7 +22,6 @@
     });
 
     const [confirmPassword, setConfirmPassword]= useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     async function handleConfirmReset(data: ResetConfirmData) {
       if (confirmPassword !== data.newPassword) {
@@ -81,7 +80,6 @@
             onChange={(e) => {
               setConfirmPassword(e.target.value)
             }}
-            error={confirmPasswordError}
             />
         </div>
 

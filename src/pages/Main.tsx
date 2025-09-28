@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "@components/Loader";
 import api from "src/api/axios";
+import { setCookie } from "@/lib/utils";
 
 export default function Main() {
   const [userData, setUserData] = useState<{ name: string; email: string; roles: string[] } | null>(null);
@@ -11,8 +12,9 @@ export default function Main() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    setCookie("accessToken", "", -1);
+    setCookie("refreshToken", "", -1);
+    setCookie("passwordChangeRequired", "", -1);
     delete api.defaults.headers.common["Authorization"];
     window.location.href = "/login";
   };
@@ -53,7 +55,7 @@ export default function Main() {
       </p>
 
       <div className="flex flex-col sm:flex-row gap-4 w-full max-w-[500px] justify-center">
-        {userData?.roles.includes("Administrador") || userData?.roles.includes("Gestor") && (
+        {(userData?.roles.includes("Administrador") || userData?.roles.includes("Gestor")) && (
           <Button
             onClick={() => {
               setIsSubmitting(true);

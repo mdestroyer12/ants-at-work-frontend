@@ -5,8 +5,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function LoggedRoute({ children }: Props) {
-  //const token = localStorage.getItem("accessToken");
+export default function LoggedOutRoute({ children }: Props) {
   const token = getCookie("accessToken");
 
   if (token) {

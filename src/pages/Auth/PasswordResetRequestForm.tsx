@@ -19,7 +19,6 @@ export default function PasswordResetRequest() {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   async function handleRequestReset(data: ResetRequestData) {
     try {
@@ -27,10 +26,10 @@ export default function PasswordResetRequest() {
        if (res.status === 200) {
         toast.success("Solicitação de redefinição realizada com sucesso!");
         window.location.href = "/login"; 
-      }else{
+      } else {
         toast.error("Erro no envio da solicitação de redefinição.")
       }
-    } catch (err: any) {
+    } catch {
       toast.error("Erro inesperado.");
       setSuccessMessage("");
     }
@@ -58,9 +57,9 @@ export default function PasswordResetRequest() {
         />
         </div>
 
-        {errorMessage && (
+        {/* {errorMessage && (
           <p className="text-[#800000] text-xs mt-1 ml-1 font-medium">{errorMessage}</p>
-        )}
+        )} */}
         {successMessage && (
           <p className="text-[#4C2D2D] text-xs mt-1 ml-1 font-medium">{successMessage}</p>
         )}
