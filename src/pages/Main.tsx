@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "@components/Loader";
 import api from "src/api/axios";
+import { useNavigate } from "react-router";
 
 export default function Main() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState<{ name: string; email: string; roles: string[] } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,10 +35,10 @@ export default function Main() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#E5DAD1] px-5">
+    <div className="min-h-screen flex flex-col items-center justify-center px-5">
       <img src="/logo.png" alt="Logo" className="h-28 mb-6" />
 
-      <h1 className="text-6xl max-[480px]:text-4xl font-bold font-lexend tracking-tight text-[#4C2D2D] mb-3">
+      <h1 className="text-6xl max-[480px]:text-4xl font-bold font-lexend tracking-tight text-[#2C1810] mb-3">
         Bem-vindo(a){userData && `, ${userData.name}`}!
       </h1>
 
@@ -50,7 +52,7 @@ export default function Main() {
           <Button
             onClick={() => {
               setIsSubmitting(true);
-              window.location.href = "/register";
+              navigate("/register");
             }}
             disabled={isSubmitting}
             className="h-12 bg-[#4C2D2D] text-base text-[#EFEAE6] hover:bg-[#3F2323] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -58,8 +60,8 @@ export default function Main() {
             {isSubmitting ? <Loader /> : "Cadastrar Usuário"}
           </Button>
         )}
-       <Button
-          onClick={() => window.location.href = "/trucks"}
+        <Button
+          onClick={() => navigate("/trucks")}
           disabled={isSubmitting}
           className="h-12 bg-[#FFFFFF] text-base text-[#4C2D2D] border-2 border-[#4C2D2D] hover:bg-[#E5DAD1] w-full sm:w-60 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
