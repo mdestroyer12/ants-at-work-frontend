@@ -8,9 +8,11 @@ import PasswordResetRequest from "../pages/Auth/PasswordResetRequestForm";
 import PasswordResetConfirm from "../pages/Auth/PasswordResetConfirmForm";
 import FirstAccessPasswordChange from "../pages/Auth/FirstAcessChangeForm";
 import ManagerRoute from "./managerRoutes";
-import TruckList from "../pages/Trucks/TruckList";
+import TruckList from "../pages/Logistics/TruckList";
 import LoggedOutRoute from "./loggedOutRoute";
 import MainLayout from "@/layouts/MainLayout";
+import FleetList from "@/pages/Logistics/FleetList";
+import FleetView from "@/pages/Logistics/FleetView";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +38,22 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "/fleets",
+        element: (
+          <ProtectedRoute>
+            <FleetList />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "/fleets/:fleetId",
+        element: (
+          <ProtectedRoute>
+            <FleetView />
+          </ProtectedRoute>
+        )
+      }
     ]
   },
   {

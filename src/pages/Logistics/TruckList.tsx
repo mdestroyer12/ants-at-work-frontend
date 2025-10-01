@@ -14,6 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@components/shadcn-ui/Tooltip";
+import api from "@/api/axios";
 
 const tableColumns: ColumnDef<Truck>[] = [
   {
@@ -65,32 +66,31 @@ const tableColumns: ColumnDef<Truck>[] = [
 ];
 
 async function fetchTrucks(): Promise<Truck[]> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const trucks = [
-    {
-      id: "1",
-      plate: "ABC-1234",
-      model: "Ford F-150",
-      capacity: 1000,
-      mileage: 50000,
-      lastRevision: "2023-10-01",
-    },
-    {
-      id: "2",
-      plate: "DEF-5678",
-      model: "Chevrolet Silverado",
-      capacity: 1200,
-      mileage: 60000,
-      lastRevision: "2023-09-15",
-    },
-  ];
+  await api.get("/trucks");
+  // const trucks = [
+  //   {
+  //     id: "1",
+  //     plate: "ABC-1234",
+  //     model: "Ford F-150",
+  //     capacity: 1000,
+  //     mileage: 50000,
+  //     lastRevision: "2023-10-01",
+  //   },
+  //   {
+  //     id: "2",
+  //     plate: "DEF-5678",
+  //     model: "Chevrolet Silverado",
+  //     capacity: 1200,
+  //     mileage: 60000,
+  //     lastRevision: "2023-09-15",
+  //   },
+  // ];
 
   return trucks;
 }
 
 async function handleAddTruck(data: TruckData) {
-  //api.post("/trucks", data);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await api.post("/trucks", data);
 }
 
 export default function TruckList() {

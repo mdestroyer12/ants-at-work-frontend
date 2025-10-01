@@ -16,8 +16,9 @@ type Props = {
 
 async function fetchTruckTypes() {
   try {
-    const res = await api.get("/truck-types");
-    return res.data;
+    // const res = await api.get("/truck-types");
+    // return res.data;
+    return ["Baú"]
   } catch (err) {
     console.error("Falha ao buscar tipos de caminhão:", err);
     return ["Baú", "Sider", "Graneleiro", "Refrigerado"];
@@ -224,7 +225,6 @@ export default function TruckForm({ open, onSubmit, handleOpenChange }: Props) {
 
               {step === 2 && (
                 <Button type="submit">
-                  {/* {loading ? <Loader /> : "Salvar"} */}
                   Salvar
                 </Button>
               )}

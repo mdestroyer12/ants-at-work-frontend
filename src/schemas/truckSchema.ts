@@ -18,6 +18,9 @@ export const truckSchema = z.object({
     errorMap: () => ({ message: "Por favor, insira uma data válida." }),
   }),
   mileage: z.coerce.number().positive("A quilometragem deve ser um número positivo"),
+  status: z.enum(["active", "maintenance", "inactive"], {
+    errorMap: () => ({ message: "Status inválido" }),
+  }),
 });
 
 export type TruckData = z.infer<typeof truckSchema>;

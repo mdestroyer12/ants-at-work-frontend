@@ -17,7 +17,7 @@ const menuItems = [
     groupName: "Logística",
     items: [
       { title: "Caminhões", url: "/trucks", icon: Truck },
-      { title: "Frotas", url: "#fleets", icon: FileIcon }
+      { title: "Frotas", url: "/fleets", icon: FileIcon }
     ]
   }
 ];
