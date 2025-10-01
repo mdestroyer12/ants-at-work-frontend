@@ -13,11 +13,16 @@ import LoggedOutRoute from "./loggedOutRoute";
 import MainLayout from "@/layouts/MainLayout";
 import FleetList from "@/pages/Logistics/FleetList";
 import FleetView from "@/pages/Logistics/FleetView";
+import About from "@/pages/About";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/about",
+    element: <About />,
   },
   {
     element: <MainLayout />,
