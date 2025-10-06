@@ -15,6 +15,7 @@ import {
 } from "@components/shadcn-ui/Tooltip";
 import { useParams, useNavigate } from "react-router-dom";
 import { Badge } from "@components/shadcn-ui/badge";
+import PageHeader from "@components/PageHeader";
 
 interface Truck extends TruckData {
   id: string;
@@ -216,13 +217,19 @@ export default function FleetView() {
 
   return (
     <div className="p-8">
-      <Button onClick={() => navigate("/fleets")} className="mb-4">
-          <ArrowLeft className="h-4 w-4" /> Voltar para Frotas
-      </Button>
-      <h1 className="text-3xl font-bold mb-2">Frota: {fleet.name}</h1>
-      <p className="text-muted-foreground mb-6">{fleet.description}</p>
+      <div className="mb-4">
+        <Button onClick={() => navigate("/fleets")} variant="outline">
+            <ArrowLeft className="mr-2 h-4 w-4" /> Voltar
+        </Button>
+      </div>
+
+      <PageHeader
+        title={`${fleet.name}`}
+        actions={<Button onClick={() => setShowForm(true)}>Adicionar Caminhão</Button>}
+        topClass="top-11"
+      />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">Total de Caminhões</h3>
@@ -264,10 +271,6 @@ export default function FleetView() {
         </div>
       </div>
       
-      <Button onClick={() => setShowForm(true)} className="mb-4">
-        Adicionar Caminhão à Frota
-      </Button>
-
       <ViewDataTable columns={tableColumns} data={fleet.trucks || []} />
       
       <TruckForm

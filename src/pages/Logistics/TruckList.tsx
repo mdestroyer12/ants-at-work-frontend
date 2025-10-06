@@ -15,6 +15,7 @@ import {
   TooltipTrigger,
 } from "@components/shadcn-ui/Tooltip";
 import api from "@/api/axios";
+import { PageHeader } from "@components/PageHeader";
 
 const tableColumns: ColumnDef<Truck>[] = [
   {
@@ -125,10 +126,11 @@ export default function TruckList() {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Caminhões</h1>
-      <Button onClick={() => setShowForm(true)} className="mb-4">
-        Adicionar Caminhão
-      </Button>
+      <PageHeader
+        title={`Gerenciamento de Caminhões`}
+        actions={<Button onClick={() => setShowForm(true)}>Cadastrar Caminhão</Button>}
+        topClass="top-11"
+      />
       {isLoading ? (
         <Skeleton className="w-full h-[60vh] mb-2" />
       ) : (

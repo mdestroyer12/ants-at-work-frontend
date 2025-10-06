@@ -17,6 +17,7 @@ import {
 import { Input } from "@components/shadcn-ui/Input";
 import { FleetSchema, FleetData } from "@schemas/FleetSchema";
 import { Loader2 } from "lucide-react";
+import PageHeader from "@components/PageHeader";
 
 // --- SIMULAÇÃO DE API E BANCO DE DADOS ---
 
@@ -36,7 +37,6 @@ interface Fleet {
   trucks: Truck[];
 }
 
-// 1. MOCK CENTRALIZADO: Esta variável atuará como nosso "banco de dados" em memória.
 const MOCKED_FLEETS: Fleet[] = [
   {
     id: "fleet-1",
@@ -59,11 +59,10 @@ const MOCKED_FLEETS: Fleet[] = [
   { id: "fleet-3", name: "Frota Refrigerada", description: "Caminhões com baú refrigerado.", trucks: [] },
 ];
 
-// 2. FUNÇÕES DA API SIMULADA
 async function fetchFleets(): Promise<Fleet[]> {
   console.log("Buscando frotas...");
-  await new Promise((resolve) => setTimeout(resolve, 800)); // Simula delay da rede
-  return JSON.parse(JSON.stringify(MOCKED_FLEETS)); // Retorna uma cópia para evitar mutações diretas
+  await new Promise((resolve) => setTimeout(resolve, 800)); 
+  return JSON.parse(JSON.stringify(MOCKED_FLEETS)); 
 }
 
 async function createFleet(data: FleetData): Promise<Fleet> {
@@ -75,7 +74,7 @@ async function createFleet(data: FleetData): Promise<Fleet> {
     description: data.description,
     trucks: [],
   };
-  MOCKED_FLEETS.push(newFleet); // Modifica o "banco de dados"
+  MOCKED_FLEETS.push(newFleet); 
   return newFleet;
 }
 
@@ -117,13 +116,12 @@ export default function FleetList() {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Gerenciamento de Frotas</h1>
-        <Button onClick={() => setShowForm(true)}>
-          Adicionar Frota
-        </Button>
-      </div>
+    <div className="container mx-auto p-8 md:p-8">
+      <PageHeader
+        title="Gerenciamento de Frotas"
+        actions={<Button onClick={() => setShowForm(true)}>Criar Frota</Button>}
+        topClass="top-11"
+      />
 
       <Dialog open={showForm} onOpenChange={handleOpenChange}>
         <DialogContent className="sm:max-w-[425px]">
@@ -172,7 +170,19 @@ export default function FleetList() {
                 key={fleet.id}
                 fleetId={fleet.id}
                 name={fleet.name}
-                trucks={fleet.trucks}
+                trucks={fleet.trucks.map((t) => ({
+                  plate: t.plate,
+                  model: t.model,
+                  capacity: t.capacity,
+                  length: 1,
+                  width: 1,
+                  height: 1,
+                  type: "Geral",
+                  detail: undefined,
+                  lastRevision: new Date(t.lastRevision),
+                  mileage: t.mileage,
+                  status: t.status,
+                }))}
                 trucksQuantity={trucksQuantity}
                 averageCapacity={averageCapacity}
                 activeTrucks={activeTrucks}
